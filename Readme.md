@@ -17,10 +17,20 @@ pip install django
 # install django Rest Framework
 pip install djangorestframework
 
+# install django Cors Headers
+pip install django-cors-headers
+
 # Run the server
 python manage.py runserver
+# or in case the port 8000 is used
+python manage.py runserver 8001
+
+#Migrate Model with the embedded SQlite3
+python manage.py migrate
 
 ```
+
+Use thi Postman collection `postman/django.postman_collection.json` to call the CRUD APIs of this Server
 
 ## Note
 
