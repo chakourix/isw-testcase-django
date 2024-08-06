@@ -22,4 +22,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("teams/", views.team_memberes),
     path("teams/<int:id>", views.team_details),
+    path('teamMember', views.teamMember_view)
+
 ]

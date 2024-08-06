@@ -5,6 +5,23 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
+import os
+from django.http import HttpResponse, Http404
+
+FTP_UPLOAD_DIR = 'web/teamMember.html'
+
+def teamMember_view(request):
+
+    # check if requested page exists
+    if os.path.exists(FTP_UPLOAD_DIR ):
+        # if yes, then serve the page
+        with open(FTP_UPLOAD_DIR ) as f:
+            response = HttpResponse(f.read())
+        return response
+
+    else:
+        raise Http404
+    
 @api_view(['GET','POST'])
 def team_memberes(request):
     
