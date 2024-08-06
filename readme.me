@@ -1,0 +1,17 @@
+https://www.youtube.com/watch?v=i5JykvxUk_A
+python3 -m venv .venv
+. .venv/bin/activate
+source .env/bin/activate
+pip install django
+pip install djangorestframework
+django-admin startproject teamManagement .
+
+python manage.py runserver // same as django-admin runserver
+python manage.py migrate // to install migration
+python manage.py createsuperuser
+python manage.py makemigrations teamManagement // require to install the app in the settings.py INSTALLED_APPS
+    python manage.py migrate
+    to  show in the admin panel, create admin.py, and restard the server
+
+//CREATE APIS
+add rest_framework to settings.py INSTALLED_APPS
