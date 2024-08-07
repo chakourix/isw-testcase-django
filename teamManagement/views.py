@@ -68,7 +68,14 @@ def team_details(request,id):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        error_message = ''
+        for v in serializer.errors:
+            if serializer.errors.get(v) is not None:
+                if isinstance(serializer.errors.get(v), list):
+                    error_message += ' '+serializer.errors.get(v)[0]
+                else: error_message += ' '+serializer.errors.get(v)
+        
+        return Response({'message':error_message},status=status.HTTP_400_BAD_REQUEST)
         
     elif request.method == 'DELETE':
         teams.delete()
