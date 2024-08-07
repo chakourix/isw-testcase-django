@@ -4,6 +4,7 @@ from .serializers import TeamSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.core.validators import validate_email
 
 import os
 from django.http import HttpResponse, Http404
@@ -23,7 +24,7 @@ def teamMember_view(request):
         raise Http404
     
 @api_view(['GET','POST'])
-def team_memberes(request):
+def team_members(request):
     
     if request.method == 'GET':
         #get all the team members
@@ -39,6 +40,14 @@ def team_memberes(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
+        error_message = ''
+        for v in serializer.errors:
+            if serializer.errors.get(v) is not None:
+                if isinstance(serializer.errors.get(v), list):
+                    error_message += ' '+serializer.errors.get(v)[0]
+                else: error_message += ' '+serializer.errors.get(v)
+        
+        return Response({'message':error_message},status=status.HTTP_400_BAD_REQUEST)
    
 @api_view(['GET','PUT','DELETE'])     
 def team_details(request,id):

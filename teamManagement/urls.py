@@ -19,8 +19,8 @@ from django.contrib import admin
 from django.urls import path
 from teamManagement import views
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("teams/", views.team_memberes),
+    path("admin/", admin.site.urls),    
+    path("teams/", views.team_members),
     path("teams/<int:id>", views.team_details),
     path('teamMember', views.teamMember_view)
 
