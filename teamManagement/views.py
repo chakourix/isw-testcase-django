@@ -40,14 +40,9 @@ def team_members(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
-        error_message = ''
-        for v in serializer.errors:
-            if serializer.errors.get(v) is not None:
-                if isinstance(serializer.errors.get(v), list):
-                    error_message += ' '+serializer.errors.get(v)[0]
-                else: error_message += ' '+serializer.errors.get(v)
-        
-        return Response({'message':error_message},status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'message':validate_error(serializer)},status=status.HTTP_400_BAD_REQUEST)
+
    
 @api_view(['GET','PUT','DELETE'])     
 def team_details(request,id):
@@ -68,15 +63,19 @@ def team_details(request,id):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        error_message = ''
-        for v in serializer.errors:
-            if serializer.errors.get(v) is not None:
-                if isinstance(serializer.errors.get(v), list):
-                    error_message += ' '+serializer.errors.get(v)[0]
-                else: error_message += ' '+serializer.errors.get(v)
-        
-        return Response({'message':error_message},status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'message':validate_error(serializer)},status=status.HTTP_400_BAD_REQUEST)
         
     elif request.method == 'DELETE':
         teams.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+def validate_error(serializer):
+    error_message = ''
+    for v in serializer.errors:
+        if serializer.errors.get(v) is not None:
+            if isinstance(serializer.errors.get(v), list):
+                error_message += ' '+serializer.errors.get(v)[0]
+            else: error_message += ' '+serializer.errors.get(v)
+        else: error_message = 'Error while proccess your request.'
+    return error_message
